@@ -1,0 +1,148 @@
+﻿@model IEnumerable<VoucherProject.Models.VoucherViewModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between">
+        <h2>Voucher List</h2>
+        <div class="app-brand justify-content-center mb-6">
+            <a href="index.html" class="app-brand-link gap-2">
+                <span class="app-brand-logo demo">
+                    <img src="https://synergyinterface.com/assets/images/logo.png" alt="Logo" width="100">
+                </span>
+            </a>
+        </div>
+    </div>
+    <br />
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        @TempData["SuccessMessage"]
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        @TempData["ErrorMessage"]
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <a href="@Url.Action("GenerateVoucherReport", "VoucherReport")" class="btn btn-outline-primary mb-3 ">
+            <i class="fa-solid fa-file-pdf m-1"></i>  Download Voucher Report
+        </a>
+
+        <div class="card">
+            <div class="table-responsive text-nowrap">
+                <table id="voucherTable" class="table table-striped mt-2">
+                    <thead>
+                        <tr>
+                            <th>Particular Date</th>
+                            <th>Particular</th>
+                            <th>Remarks</th>
+                            <th>Amount</th>
+                            <th>Submit Date</th>
+                            <th>Actions</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var voucher in Model)
+                        {
+                            <tr>
+                                <td>@voucher.ParticularDate.ToString("yyyy-MM-dd")</td>
+                                <td>@voucher.Particular</td>
+                                <td>@voucher.Remarks</td>
+                                <td>@voucher.Amount</td>
+                                <td>@voucher.SubmitDate.ToString("yyyy-MM-dd")</td>
+                                <td>
+                                    <a href="@Url.Action("EditVoucher", "Auth", new { id = voucher.Id })">
+                                        <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                                    </a>
+                                    <form method="post" action="@Url.Action("DeleteVoucher", "Auth")" style="display:inline;">
+                                        <input type="hidden" name="id" value="@voucher.Id" />
+                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this voucher?');">
+                                            <i class="fa-solid fa-trash fa-sm"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>@voucher.Status</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>No vouchers found.</p>
+    }
+</div>
+
+<br />
+<div>
+    <a href="@Url.Action("CreateVoucher", "Auth")"> <button type="submit" class="btn btn-primary">Create New Voucher</button></a>
+</div>
+
+<!-- jQuery (Required for DataTables) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap JS (Required for Toasts) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<!-- DataTables CSS (Optional, for styling) -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+<script>
+    $(document).ready(function () {
+        // Initialize DataTable
+        $('#voucherTable').DataTable({
+            paging: true,          // Enable pagination
+            searching: true,       // Enable search
+            ordering: true,        // Enable column sorting
+            info: true,            // Show info (e.g., "Showing 1-10 of 50")
+            lengthMenu: [5, 10, 25, 50, 100], // Dropdown for records per page
+            pageLength: 10,        // Default rows per page
+            responsive: true,      // Enable responsive table
+            language: {
+                searchPlaceholder: "Search vouchers...",
+                search: "",         // Remove "Search:" text, only placeholder
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ vouchers",
+                paginate: {
+                    previous: "< Prev", // Custom pagination buttons
+                    next: "Next >"
+                }
+            }
+        });
+
+        // Show toast notifications if present
+        if ($('.toast').length) {
+            var toastList = [].slice.call(document.querySelectorAll('.toast'));
+            toastList.forEach(function (toastEl) {
+                var toast = new bootstrap.Toast(toastEl); // Initialize each toast
+                toast.show(); // Show toast
+            });
+        }
+    });
+</script>

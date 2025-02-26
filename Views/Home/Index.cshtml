@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Voucher Management System";
+}
+
+<main>
+    <section class="row text-center">
+        <h1 id="title">Voucher Management System</h1>
+        <p class="lead">Manage vouchers efficiently with our system, including adding, editing, and deleting vouchers.</p>
+    </section>
+
+    <div class="row mt-4">
+        <section class="col-md-4 text-center">
+            <h2>New Voucher</h2>
+            <p>Create new vouchers by entering relevant details.</p>
+            <p><a class="btn btn-success" href="@Url.Action("CreateVoucher", "Auth")">Add Voucher &raquo;</a></p>
+        </section>
+
+        <section class="col-md-4 text-center">
+            <h2>Manage Vouchers</h2>
+            <p>Show your all existing vouchers from the system.</p>
+            <p><a class="btn btn-warning" href="@Url.Action("VoucherList", "Auth")">View Vouchers &raquo;</a></p>
+        </section>
+
+        <section class="col-md-4 text-center">
+            <h2>User Access</h2>
+            <p>Sign in to access voucher management features.</p>
+            <p><a class="btn btn-primary" href="@Url.Action("Login", "Auth")">Sign In &raquo;</a></p>
+        </section>
+    </div>
+</main>

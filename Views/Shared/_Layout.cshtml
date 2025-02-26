@@ -1,0 +1,144 @@
+﻿@using System.Web.Security
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!-- FontAwesome (one version only) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    <!-- Bootstrap 5 CSS -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- DataTables Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+    <!-- Boxicons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="@Url.Content("~/Content/assets/img/favicon/fav.ico")" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/vendor/css/core.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/vendor/css/theme-default.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/demo.css")" />
+
+    <!-- Additional Vendor CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css")" />
+
+    <!-- Page specific CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/vendor/css/pages/page-auth.css")" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            <!-- Left side of the navbar with application name and links -->
+            @Html.ActionLink("Voucher Entry", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                </ul>
+
+                <!-- Right side of the navbar with ellipsis for profile and logout -->
+                <ul class="navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown">
+                            <!-- 3-Dot menu (ellipsis) for profile -->
+                            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-horizontal m-5"></i>
+                                <!-- 3-Dot icon -->
+                            </a>
+
+                            <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                                <!-- Profile Image and Name -->
+                                <li class="dropdown-item text-center">
+                                    <!-- Profile Icon -->
+                                    <i class="bi bi-person-circle" style="font-size: 40px;"></i>
+                                    <div>@User.Identity.Name</div>
+                                </li>
+                                <li><hr class="dropdown-divider" /></li>
+
+                                <!-- Logout Option -->
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("Logout", "Auth")">Logout</a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+
+
+
+
+
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    @Scripts.Render("~/bundles/bootstrap")
+    <!-- Additional Vendor JS -->
+    <script src="@Url.Content("~/Content/assets/vendor/libs/popper/popper.js")"></script>
+    <script src="@Url.Content("~/Content/assets/vendor/js/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js")"></script>
+    <script src="@Url.Content("~/Content/assets/vendor/js/menu.js")"></script>
+
+    <!-- Main JS -->
+    <script src="@Url.Content("~/Content/assets/js/main.js")"></script>
+
+    <!-- Additional page JS -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Add this JavaScript to toggle dropdown visibility -->
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+    $(document).ready(function () {
+        var successMessage = '@TempData["SuccessMessage"]';
+        var errorMessage = '@TempData["ErrorMessage"]';
+
+        if (successMessage) {
+            toastr.success(successMessage);
+        }
+        if (errorMessage) {
+            toastr.error(errorMessage);
+        }
+    });
+    </script>
+
+</body>
+</html>

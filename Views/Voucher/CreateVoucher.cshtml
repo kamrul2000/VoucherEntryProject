@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "CreateVoucher";
+}
+
+<div class="container">
+    <h2>Create Voucher</h2>
+
+    <form method="post" action="/Voucher/Create" >
+
+        <input type="hidden" name="UserId" value="@Session["UserId"]" />
+
+        <div class="form-group">
+            <label for="ParticularDate">Particular Date</label>
+            <input type="date" id="ParticularDate" name="ParticularDate" class="form-control" />
+        </div>
+
+
+        <div class="form-group">
+            <label for="Particular">Particular</label>
+            <input type="text" id="Particular" name="Particular" class="form-control" />
+        </div>
+
+
+        <div class="form-group">
+            <label for="Remarks">Remarks</label>
+            <input type="text" id="Remarks" name="Remarks" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="Amount">Amount</label>
+            <input type="number" id="Amount" name="Amount" class="form-control"  />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Voucher</button>
+    </form>
+</div>
+
