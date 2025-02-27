@@ -1,5 +1,4 @@
-﻿@using System.Web.Security
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -12,7 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
     <!-- Bootstrap 5 CSS -->
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
     <!-- DataTables Bootstrap 5 CSS -->
@@ -21,7 +19,6 @@
     <!-- Boxicons CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="@Url.Content("~/Content/assets/img/favicon/fav.ico")" />
@@ -45,12 +42,11 @@
         <div class="container">
             <!-- Left side of the navbar with application name and links -->
             @Html.ActionLink("Voucher Entry", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+            <button type="button" class="navbar-toggler" id="navbarToggler" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
@@ -85,15 +81,9 @@
                         </li>
                     }
                 </ul>
-
-
-
-
-
             </div>
         </div>
     </nav>
-
 
     <div class="container body-content">
         @RenderBody()
@@ -103,13 +93,10 @@
         </footer>
     </div>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap JS -->
-    @Scripts.Render("~/bundles/bootstrap")
+    <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Additional Vendor JS -->
-    <script src="@Url.Content("~/Content/assets/vendor/libs/popper/popper.js")"></script>
-    <script src="@Url.Content("~/Content/assets/vendor/js/bootstrap.js")"></script>
     <script src="@Url.Content("~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js")"></script>
     <script src="@Url.Content("~/Content/assets/vendor/js/menu.js")"></script>
 
@@ -118,27 +105,39 @@
 
     <!-- Additional page JS -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Add this JavaScript to toggle dropdown visibility -->
+
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
-    $(document).ready(function () {
-        var successMessage = '@TempData["SuccessMessage"]';
-        var errorMessage = '@TempData["ErrorMessage"]';
+        // Custom JavaScript to handle the navbar toggle
+        document.getElementById('navbarToggler').addEventListener('click', function () {
+            var navbarCollapse = document.getElementById('navbarNav');
 
-        if (successMessage) {
-            toastr.success(successMessage);
-        }
-        if (errorMessage) {
-            toastr.error(errorMessage);
-        }
-    });
+            // Toggle the "collapse" class to open/close the navbar
+            if (navbarCollapse.classList.contains('collapse')) {
+                navbarCollapse.classList.remove('collapse');
+                navbarCollapse.classList.add('show');
+            } else {
+                navbarCollapse.classList.remove('show');
+                navbarCollapse.classList.add('collapse');
+            }
+        });
+
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            var errorMessage = '@TempData["ErrorMessage"]';
+
+            if (successMessage) {
+                toastr.success(successMessage);
+            }
+            if (errorMessage) {
+                toastr.error(errorMessage);
+            }
+        });
     </script>
-
 </body>
 </html>
